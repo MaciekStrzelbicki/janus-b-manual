@@ -198,6 +198,11 @@ body {
   color: var(--sky-700);
 }
 
+.toc-bar a.active {
+  background: var(--sky-700);
+  color: #fff;
+}
+
 /* ─── MAIN LAYOUT ─── */
 .manual-body {
   max-width: 900px;
@@ -1510,6 +1515,21 @@ p {
   <p>Wydanie oryginalne: marzec 1978 &bull; Rejestracja: G-DDTC &bull; Nr seryjny: 63</p>
   <p style="margin-top:1rem; font-size:0.78rem;">Niniejsze tłumaczenie ma charakter informacyjny. W przypadku wątpliwości wiążący jest tekst oryginalny w języku angielskim/niemieckim.<br>Dokument wygenerowany na potrzeby pilota — marzec 2026.</p>
 </footer>
+
+<script>
+const navLinks = document.querySelectorAll('.toc-bar a');
+const sections = document.querySelectorAll('section[id]');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(a => a.classList.remove('active'));
+      const link = document.querySelector('.toc-bar a[href="#' + entry.target.id + '"]');
+      if (link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -60% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
 
 </body>
 </html>
