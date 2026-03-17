@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Janus B — Podręcznik Lotu i Obsługi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sky-100: #e8f4fd;
+  --sky-200: #c5e4f7;
+  --sky-300: #87c4eb;
+  --sky-500: #3a8fd4;
+  --sky-700: #1a5f9e;
+  --sky-900: #0d3b66;
+  --cloud: #f7fafc;
+  --warm-50: #fffbf0;
+  --warm-100: #fef3d0;
+  --warm-200: #fde5a0;
+  --earth-600: #8b6914;
+  --earth-700: #6b4f10;
+  --red-500: #dc3545;
+  --red-100: #fde8ea;
+  --amber-500: #f0a500;
+  --amber-100: #fff8e1;
+  --green-500: #28a745;
+  --green-100: #e8f5e9;
+  --slate-50: #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-300: #cbd5e1;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-800: #1e293b;
+  --slate-900: #0f172a;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Source Sans 3', 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 17px; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--slate-800);
+  background: var(--slate-50);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── HERO ─── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(160deg, var(--sky-900) 0%, var(--sky-700) 40%, var(--sky-500) 70%, var(--sky-300) 100%);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 120% 80% at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 80% 20%, rgba(255,255,255,0.05) 0%, transparent 50%);
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(to top, var(--slate-50), transparent);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: white;
+  padding: 2rem;
+  animation: fadeUp 1.2s ease-out;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 50px;
+  padding: 0.5rem 1.5rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  font-weight: 500;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 4px 30px rgba(0,0,0,0.2);
+}
+
+.hero h1 span {
+  display: block;
+  font-size: 0.35em;
+  font-family: var(--font-body);
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-top: 0.8rem;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 2.5rem;
+  justify-content: center;
+  margin-top: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.hero-meta-item {
+  text-align: center;
+}
+
+.hero-meta-item .value {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+.hero-meta-item .label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+  margin-top: 0.2rem;
+}
+
+/* ─── GLIDER SVG SILHOUETTE ─── */
+.glider-silhouette {
+  width: 340px;
+  max-width: 80vw;
+  margin: 2.5rem auto 0;
+  opacity: 0.2;
+}
+
+/* ─── NAV / TOC ─── */
+.toc-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--slate-200);
+  padding: 0.6rem 1rem;
+  overflow-x: auto;
+  white-space: nowrap;
+  display: flex;
+  gap: 0.3rem;
+  justify-content: center;
+}
+
+.toc-bar a {
+  display: inline-block;
+  padding: 0.45rem 1rem;
+  color: var(--slate-600);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.toc-bar a:hover {
+  background: var(--sky-100);
+  color: var(--sky-700);
+}
+
+/* ─── MAIN LAYOUT ─── */
+.manual-body {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 6rem;
+}
+
+/* ─── SECTIONS ─── */
+section {
+  margin-bottom: 4rem;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--sky-200);
+}
+
+.section-number {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--sky-700), var(--sky-500));
+  color: white;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(26,95,158,0.25);
+}
+
+.section-header h2 {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--sky-900);
+  line-height: 1.2;
+}
+
+h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--slate-800);
+  margin: 2rem 0 1rem;
+}
+
+h4 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--slate-700);
+  margin: 1.5rem 0 0.8rem;
+}
+
+p {
+  margin-bottom: 1rem;
+  color: var(--slate-700);
+}
+
+/* ─── DATA TABLE ─── */
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1.5rem 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+}
+
+.data-table thead th {
+  background: var(--sky-900);
+  color: white;
+  padding: 0.9rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-align: left;
+}
+
+.data-table tbody td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--slate-100);
+  font-size: 0.95rem;
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tbody tr:nth-child(even) {
+  background: var(--slate-50);
+}
+
+.data-table tbody tr:hover {
+  background: var(--sky-100);
+}
+
+.data-table .num {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--sky-700);
+}
+
+/* ─── CARDS ─── */
+.card {
+  background: white;
+  border-radius: 14px;
+  padding: 1.8rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 6px 24px rgba(0,0,0,0.04);
+  border: 1px solid var(--slate-100);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.2rem;
+  margin: 1.5rem 0;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.4rem;
+  border: 1px solid var(--slate-200);
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+.stat-card .stat-value {
+  font-family: var(--font-mono);
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: var(--sky-700);
+  line-height: 1.2;
+}
+
+.stat-card .stat-unit {
+  font-size: 0.85rem;
+  color: var(--slate-400);
+}
+
+.stat-card .stat-label {
+  font-size: 0.82rem;
+  color: var(--slate-500);
+  margin-top: 0.4rem;
+  font-weight: 500;
+}
+
+/* ─── ALERT BOXES ─── */
+.alert {
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  margin: 1.5rem 0;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  line-height: 1.6;
+}
+
+.alert-icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.alert-danger {
+  background: var(--red-100);
+  border-left: 4px solid var(--red-500);
+}
+.alert-danger .alert-icon { background: var(--red-500); color: white; }
+
+.alert-warning {
+  background: var(--amber-100);
+  border-left: 4px solid var(--amber-500);
+}
+.alert-warning .alert-icon { background: var(--amber-500); color: white; }
+
+.alert-info {
+  background: var(--sky-100);
+  border-left: 4px solid var(--sky-500);
+}
+.alert-info .alert-icon { background: var(--sky-500); color: white; }
+
+.alert-success {
+  background: var(--green-100);
+  border-left: 4px solid var(--green-500);
+}
+.alert-success .alert-icon { background: var(--green-500); color: white; }
+
+/* ─── COCKPIT CONTROLS ─── */
+.controls-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.control-item {
+  background: white;
+  border-radius: 12px;
+  padding: 1.3rem;
+  text-align: center;
+  border: 1px solid var(--slate-200);
+  transition: all 0.2s;
+}
+
+.control-item:hover {
+  border-color: var(--sky-300);
+  box-shadow: 0 4px 16px rgba(58,143,212,0.12);
+}
+
+.control-color {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 0 auto 0.8rem;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.control-item .control-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--slate-800);
+}
+
+.control-item .control-desc {
+  font-size: 0.82rem;
+  color: var(--slate-500);
+  margin-top: 0.3rem;
+}
+
+/* ─── ASI MARKINGS ─── */
+.asi-bar {
+  display: flex;
+  height: 32px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1rem 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.asi-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* ─── CHECKLIST ─── */
+.checklist {
+  list-style: none;
+  margin: 1rem 0;
+}
+
+.checklist li {
+  padding: 0.7rem 1rem 0.7rem 2.8rem;
+  position: relative;
+  border-bottom: 1px solid var(--slate-100);
+  font-size: 0.95rem;
+  color: var(--slate-700);
+}
+
+.checklist li::before {
+  content: '';
+  position: absolute;
+  left: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--sky-400);
+  border-radius: 5px;
+}
+
+.checklist li:last-child { border-bottom: none; }
+
+/* ─── FLAP DIAGRAM ─── */
+.flap-positions {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 1.5rem 0;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.flap-pos {
+  flex: 1;
+  padding: 1rem 0.5rem;
+  text-align: center;
+  border-right: 1px solid var(--slate-200);
+  transition: background 0.2s;
+}
+
+.flap-pos:last-child { border-right: none; }
+
+.flap-pos:hover { background: var(--sky-100); }
+
+.flap-pos .fp-name {
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--sky-700);
+}
+
+.flap-pos .fp-use {
+  font-size: 0.72rem;
+  color: var(--slate-500);
+  margin-top: 0.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ─── IMAGE GALLERY ─── */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.2rem;
+  margin: 1.5rem 0;
+}
+
+.gallery-item {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  aspect-ratio: 16/10;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ─── SPIN RECOVERY STEPS ─── */
+.steps {
+  counter-reset: step;
+  margin: 1.5rem 0;
+}
+
+.step {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 10px;
+  border: 1px solid var(--slate-100);
+}
+
+.step::before {
+  counter-increment: step;
+  content: counter(step);
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  background: var(--sky-700);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* ─── FOOTER ─── */
+.manual-footer {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: var(--sky-900);
+  color: rgba(255,255,255,0.6);
+  font-size: 0.85rem;
+}
+
+.manual-footer strong {
+  color: rgba(255,255,255,0.9);
+}
+
+/* ─── PRINT ─── */
+@media print {
+  .toc-bar { display: none; }
+  .hero { min-height: auto; padding: 3rem; break-after: page; }
+  section { break-inside: avoid; }
+}
+
+@media (max-width: 640px) {
+  html { font-size: 15px; }
+  .hero-meta { gap: 1.5rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .flap-positions { flex-wrap: wrap; }
+  .flap-pos { flex: 0 0 33.33%; }
+  .toc-bar { justify-content: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<header class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Schempp-Hirth Flugzeugbau GmbH &bull; Kirchheim-Teck</div>
+    <h1>
+      JANUS B
+      <span>Podręcznik Lotu i Obsługi</span>
+    </h1>
+
+    <!-- Silhouette SVG -->
+    <svg class="glider-silhouette" viewBox="0 0 400 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 32 C20 32, 40 30, 60 29 L120 27 L180 25 C200 24, 220 24, 260 25 L340 28 C360 29, 380 30, 398 31" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M170 25 L175 8 L210 6 L215 24" stroke="rgba(255,255,255,0.5)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M340 28 L360 18 L380 16 L385 28" stroke="rgba(255,255,255,0.5)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <ellipse cx="195" cy="38" rx="8" ry="8" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+    </svg>
+
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="value">20 m</div>
+        <div class="label">Rozpiętość</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="value">39.5</div>
+        <div class="label">Max. L/D (doskonałość)</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="value">620 kg</div>
+        <div class="label">Masa max.</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="value">0.7 m/s</div>
+        <div class="label">Min. opadanie</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════ NAV ═══════════════════════ -->
+<nav class="toc-bar">
+  <a href="#dane">Dane</a>
+  <a href="#predkosci">Prędkości</a>
+  <a href="#kokpit">Kokpit</a>
+  <a href="#instrukcje">Instrukcje</a>
+  <a href="#osiagi">Osiągi</a>
+  <a href="#klapy">Klapy</a>
+  <a href="#przeciagniecie">Przeciągnięcie</a>
+  <a href="#sytuacje">Sytuacje awaryjne</a>
+  <a href="#akrobacja">Akrobacja</a>
+  <a href="#chmury">Lot w chmurach</a>
+  <a href="#cg">C.G.</a>
+  <a href="#checklista">Checklista</a>
+</nav>
+
+<!-- ═══════════════════════ MAIN ═══════════════════════ -->
+<main class="manual-body">
+
+  <!-- ── 1. DANE EKSPLOATACYJNE ── -->
+  <section id="dane">
+    <div class="section-header">
+      <div class="section-number">01</div>
+      <h2>Dane eksploatacyjne i ograniczenia</h2>
+    </div>
+
+    <p>Szybowiec Janus B to dwumiejscowy szybowiec klasy standard, zaprojektowany i wyprodukowany przez firmę Schempp-Hirth w Kirchheim-Teck (Niemcy Zachodnie). Wydanie oryginalne podręcznika: marzec 1978. Konstrukcja posiada certyfikat kategorii <strong>NORMAL (N)</strong> wg LFS i jest dopuszczona do lotów w chmurach oraz ograniczonej akrobacji.</p>
+
+    <div class="card-grid">
+      <div class="stat-card">
+        <div class="stat-value">~370 <span class="stat-unit">kg</span></div>
+        <div class="stat-label">Masa własna (przybliżona)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">620 <span class="stat-unit">kg</span></div>
+        <div class="stat-label">Masa max. startowa</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">440 <span class="stat-unit">kg</span></div>
+        <div class="stat-label">Max. masa cz. nienośnych</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">825 <span class="stat-unit">daN</span></div>
+        <div class="stat-label">Max. bezpiecznik holowniczy</div>
+      </div>
+    </div>
+
+    <div class="alert alert-info">
+      <div class="alert-icon">i</div>
+      <div>Wszystkie prędkości w niniejszym podręczniku podane są jako <strong>prędkości wskazane (IAS)</strong>, chyba że wyraźnie zaznaczono inaczej.</div>
+    </div>
+  </section>
+
+  <!-- ── 2. OGRANICZENIA PRĘDKOŚCI ── -->
+  <section id="predkosci">
+    <div class="section-header">
+      <div class="section-number">02</div>
+      <h2>Ograniczenia prędkości</h2>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Ograniczenie</th>
+          <th>km/h</th>
+          <th>mph</th>
+          <th>węzły</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>V<sub>NE</sub> — szybowanie / nurkowanie</td>
+          <td class="num">220</td>
+          <td class="num">137</td>
+          <td class="num">119</td>
+        </tr>
+        <tr>
+          <td>Max. prędkość w burzliwej atmosferze</td>
+          <td class="num">220</td>
+          <td class="num">137</td>
+          <td class="num">119</td>
+        </tr>
+        <tr>
+          <td>V<sub>M</sub> — prędkość manewrowa</td>
+          <td class="num">170</td>
+          <td class="num">105</td>
+          <td class="num">92</td>
+        </tr>
+        <tr>
+          <td>Holowanie za samolotem</td>
+          <td class="num">170</td>
+          <td class="num">105</td>
+          <td class="num">92</td>
+        </tr>
+        <tr>
+          <td>Holowanie za wyciągarką</td>
+          <td class="num">120</td>
+          <td class="num">75</td>
+          <td class="num">65</td>
+        </tr>
+        <tr>
+          <td>Z otwartymi hamulcami aero.</td>
+          <td class="num">220</td>
+          <td class="num">137</td>
+          <td class="num">119</td>
+        </tr>
+        <tr>
+          <td>Klapy w pozycji L</td>
+          <td class="num">140</td>
+          <td class="num">87</td>
+          <td class="num">76</td>
+        </tr>
+        <tr>
+          <td>Klapy +8, 0, −4, −7</td>
+          <td class="num">220</td>
+          <td class="num">137</td>
+          <td class="num">119</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Oznaczenie prędkościomierza</h3>
+    <p>Skala prędkościomierza posiada następujące oznaczenia kolorystyczne:</p>
+
+    <div class="asi-bar">
+      <div class="asi-segment" style="flex:1.44; background: white; color: var(--slate-600);">75–140 km/h (klapy L)</div>
+      <div class="asi-segment" style="flex:3.8; background: #4caf50;">75–170 km/h</div>
+      <div class="asi-segment" style="flex:2; background: #ffc107; color: var(--slate-800);">170–220 km/h</div>
+      <div class="asi-segment" style="flex:0.3; background: #f44336;">220</div>
+    </div>
+
+    <div style="display:flex; gap:1.5rem; flex-wrap:wrap; font-size:0.85rem; color:var(--slate-500); margin-top:0.5rem;">
+      <span>◻ Biały łuk: 75–140 km/h (klapy L)</span>
+      <span style="color:#4caf50;">■ Zielony łuk: 75–170 km/h</span>
+      <span style="color:#f0a500;">■ Żółty łuk: 170–220 km/h</span>
+      <span style="color:#f44336;">■ Czerwona kreska: 220 km/h</span>
+    </div>
+
+    <h3>Prędkość 1,1 V<sub>S1</sub></h3>
+    <p>Wartość 1,1-krotnej prędkości przeciągnięcia wynosi <strong>75 km/h</strong> (46 mph / 40 kn) i dotyczy konfiguracji bazowej: klapy w pozycji „L", hamulce schowane, masa max. 620 kg.</p>
+  </section>
+
+  <!-- ── 3. KOKPIT ── -->
+  <section id="kokpit">
+    <div class="section-header">
+      <div class="section-number">03</div>
+      <h2>Oznaczenia i elementy sterowania w kokpicie</h2>
+    </div>
+
+    <p>Każdy element sterowania posiada unikatowe oznaczenie kolorystyczne i kształt uchwytu, co ułatwia identyfikację w trakcie lotu — również dotykowo.</p>
+
+    <div class="controls-grid">
+      <div class="control-item">
+        <div class="control-color" style="background: linear-gradient(135deg, #ddd, #f5f5f5);"></div>
+        <div class="control-name">Regulacja pedałów</div>
+        <div class="control-desc">Plastikowy uchwyt T — tylko fotel przedni</div>
+      </div>
+      <div class="control-item">
+        <div class="control-color" style="background: linear-gradient(135deg, #f1c40f, #f9e76c);"></div>
+        <div class="control-name">Wyzwalacz liny</div>
+        <div class="control-desc">Żółte plastikowe uchwyty T</div>
+      </div>
+      <div class="control-item">
+        <div class="control-color" style="background: linear-gradient(135deg, #27ae60, #6ddb93);"></div>
+        <div class="control-name">Trymer</div>
+        <div class="control-desc">Zielone pokrętła — sprężynowe</div>
+      </div>
+      <div class="control-item">
+        <div class="control-color" style="background: linear-gradient(135deg, #2980b9, #5dade2);"></div>
+        <div class="control-name">Hamulce aero.</div>
+        <div class="control-desc">Uchwyty z niebieskim oznakowaniem</div>
+      </div>
+      <div class="control-item">
+        <div class="control-color" style="background: linear-gradient(135deg, #222, #555);"></div>
+        <div class="control-name">Wentylacja</div>
+        <div class="control-desc">Małe czarne pokrętła</div>
+      </div>
+      <div class="control-item">
+        <div class="control-color" style="background: linear-gradient(135deg, #2980b9, #5dade2);"></div>
+        <div class="control-name">Spadochron hamujący</div>
+        <div class="control-desc">Niebieskie pokrętła</div>
+      </div>
+      <div class="control-item">
+        <div class="control-color" style="background: linear-gradient(135deg, #e74c3c, #f1948a);"></div>
+        <div class="control-name">Osłona (otwarcie)</div>
+        <div class="control-desc">Czerwone kuliste pokrętło — lewa strona</div>
+      </div>
+      <div class="control-item">
+        <div class="control-color" style="background: linear-gradient(135deg, #e74c3c, #f1948a);"></div>
+        <div class="control-name">Osłona (zrzut)</div>
+        <div class="control-desc">Czerwone kuliste pokrętło — prawa strona</div>
+      </div>
+    </div>
+
+    <div class="alert alert-warning">
+      <div class="alert-icon">!</div>
+      <div><strong>Uwaga:</strong> Osłona otwiera się na zawiasach po prawej stronie. Otwieranie — pokrętło czerwone po lewej. Zrzut awaryjny — najpierw otwórz osłonę, potem pociągnij czerwone pokrętło po prawej i zepchnij osłonę.</div>
+    </div>
+  </section>
+
+  <!-- ── 4. INSTRUKCJE OPERACYJNE ── -->
+  <section id="instrukcje">
+    <div class="section-header">
+      <div class="section-number">04</div>
+      <h2>Instrukcje operacyjne</h2>
+    </div>
+
+    <h3>Start za wyciągarką</h3>
+    <div class="card">
+      <p><strong>Maksymalna prędkość holowania:</strong> 120 km/h (75 mph, 65 węzłów).</p>
+      <p><strong>Klapy:</strong> pozycja +8°.</p>
+      <p>Szybowiec posiada jeden hak holowniczy na spodzie kadłuba, tuż przed głównym kołem. W normalnych warunkach start za wyciągarką odbywa się bez trudności — brak tendencji do koziołkowania.</p>
+      <p>Przy dwóch ciężkich pilotach szybowiec stoi na kółku przednim i kole głównym. Rozbieg należy rozpocząć z drążkiem ściągniętym do tyłu, stopniowo odpuszczając go do przodu aż kółko przednie uniesie się od ziemi.</p>
+      <p>Przy normalnym położeniu C.G. rozbieg powinien odbywać się z drążkiem w pozycji neutralnej.</p>
+      <p>Przy bardzo lekkich pilotach zalecane jest rozpoczęcie rozbiegu z drążkiem pochylonym do przodu.</p>
+    </div>
+
+    <h3>Start za samolotem (aeroholowanie)</h3>
+    <div class="card">
+      <p><strong>Maksymalna prędkość holowania:</strong> 170 km/h (105 mph, 92 węzły).</p>
+      <p><strong>Klapy:</strong> pozycja 0° lub +8°. Do holowania za samolotem używany jest hak w nosie kadłuba.</p>
+      <p>Procedura: rozpocznij rozbieg z klapami na 0°, po uniesieniu przełóż na +8° i nabieraj wysokość. Przy prędkości holowania 130–170 km/h klapy z powrotem na 0°.</p>
+    </div>
+
+    <h3>Prędkość startu</h3>
+    <p>Prędkość oderwania wynosi <strong>70–90 km/h</strong> (38–48 węzłów), w zależności od obciążenia skrzydła i pozycji klap.</p>
+
+    <h3>Odpięcie liny</h3>
+    <div class="card">
+      <p>Pociągnij uchwyt wyzwalacza całkowicie do tyłu. Mechanizm odpięcia działa za pomocą linki połączonej z żółtym uchwytem T:</p>
+      <p>&bull; <strong>Fotel przedni:</strong> po lewej stronie drążka.</p>
+      <p>&bull; <strong>Fotel tylny:</strong> po lewej stronie panelu przyrządów.</p>
+    </div>
+
+    <h3>Regulacja pedałów (fotel przedni)</h3>
+    <p>Regulacja odbywa się za pomocą linki Bowdena sterowanej plastikowym uchwytem T po prawej stronie drążka sterowego.</p>
+    <p><strong>Do tyłu:</strong> pociągnij uchwyt i przesuń pedały piętami.</p>
+    <p><strong>Do przodu:</strong> lekko pociągnij uchwyt do tyłu, aby odblokować mechanizm, potem zepchnij pedały piętami do przodu i zablokuj (słyszalny klik).</p>
+
+    <h3>Trymer podłużny</h3>
+    <p>Trymer sprężynowy (zielone pokrętło po lewej stronie fotela) jest płynnie regulowany. Przy średnim położeniu C.G. szybowiec daje się wytrymować do lotu ustalonego w zakresie prędkości 75–200 km/h.</p>
+
+    <h3>Podejście i lądowanie (klapy „L")</h3>
+    <div class="card">
+      <p>Podejście wykonuje się przy prędkości <strong>90–100 km/h</strong> (48–54 węzły), w zależności od obciążenia skrzydła.</p>
+      <p>Hamulce aerodynamiczne wypuszczane są płynnie i działają bardzo skutecznie. Ślizg boczny jest łatwo kontrolowalny i może służyć jako dodatkowa pomoc przy lądowaniu — również z wypuszczonymi hamulcami.</p>
+      <p>Szybowiec osiada na kole głównym i płozie ogonowej (lub kółku) jednocześnie. Hamulec koła (bębnowy) działa dobrze — uruchamiany uchwytem na drążkach sterowych.</p>
+
+      <div class="alert alert-info">
+        <div class="alert-icon">i</div>
+        <div>Aby uniknąć długiego dobiegu, zaleca się przyziemienie z minimalną prędkością <strong>70–80 km/h</strong> (38–43 kn). Lądowanie przy 95 km/h podwaja energię kinetyczną i znacznie wydłuża dobieg!</div>
+      </div>
+    </div>
+
+    <h3>Spadochron hamujący</h3>
+    <p>Uchwyt z niebieskim pokrętłem znajduje się po prawej stronie kokpitu, gdzie siedzenie mocowane jest do kadłuba. Obsługiwać prawą ręką.</p>
+    <p><strong>Wypuszczenie:</strong> pchnij uchwyt do przodu wzdłuż szczeliny prowadzącej do środkowego ogranicznika.</p>
+    <p><strong>Zrzucenie:</strong> dalsze przesunięcie uchwytu do przedniego ogranicznika.</p>
+
+    <div class="alert alert-warning">
+      <div class="alert-icon">!</div>
+      <div>Spadochron hamujący stosuj <strong>wyłącznie awaryjnie</strong> — przy normalnych lądowaniach hamulce aerodynamiczne są w pełni wystarczające. Nie przesuwaj uchwytu zbyt daleko do przodu, jeśli nie zamierzasz zrzucić spadochronu.</div>
+    </div>
+  </section>
+
+  <!-- ── 5. OSIĄGI ── -->
+  <section id="osiagi">
+    <div class="section-header">
+      <div class="section-number">05</div>
+      <h2>Osiągi w locie</h2>
+    </div>
+
+    <p>Dane dotyczą lotu dwumiejscowego przy obciążeniu skrzydła W/S = 36,5 kp/m².</p>
+
+    <div class="card-grid">
+      <div class="stat-card">
+        <div class="stat-value">70 <span class="stat-unit">km/h</span></div>
+        <div class="stat-label">Prędkość przeciągnięcia (klapy +8°)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">0.7 <span class="stat-unit">m/s</span></div>
+        <div class="stat-label">Min. opadanie przy 90 km/h</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">39.5</div>
+        <div class="stat-label">Max. doskonałość (L/D) przy 110 km/h</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">~127 <span class="stat-unit">/min</span></div>
+        <div class="stat-label">Częstotliwość drgań giętnych skrzydła</div>
+      </div>
+    </div>
+
+    <h3>Lot kołowy (krążenie)</h3>
+    <p>Przy ściąganiu drążka do tyłu w kręgu odczuwalny jest wyraźny wzrost sił na drążku. Przeciwlotka potrzebna jest dopiero przy mocniejszych przechyłach (ze względu na różnicowe wychylenie lotek).</p>
+    <p>Ster kierunku jest bardzo skuteczny i w locie kołowym powinien być utrzymywany niemal w pozycji neutralnej. Przejście z kręgu 45° do przechyłu 90° wymaga pełnego wychylenia steru kierunku i lotek. Czas tego manewru przy klapach +8° i prędkości 100 km/h wynosi ok. 5 sekund.</p>
+  </section>
+
+  <!-- ── 6. KLAPY ── -->
+  <section id="klapy">
+    <div class="section-header">
+      <div class="section-number">06</div>
+      <h2>Klapy skrzydłowe</h2>
+    </div>
+
+    <p>Klapy służą do optymalnego dopasowania profilu laminarnego skrzydła do aktualnej prędkości lotu. Ponieważ zakresy laminarności poszczególnych ustawień wzajemnie się pokrywają, dopuszczalne jest stosowanie następujących konfiguracji:</p>
+
+    <div class="flap-positions">
+      <div class="flap-pos">
+        <div class="fp-name">L</div>
+        <div class="fp-use">Podejście/<br>Lądowanie</div>
+      </div>
+      <div class="flap-pos">
+        <div class="fp-name">+8°</div>
+        <div class="fp-use">Krążenie<br>termiczne</div>
+      </div>
+      <div class="flap-pos">
+        <div class="fp-name">0°</div>
+        <div class="fp-use">Najlepsza<br>doskonałość</div>
+      </div>
+      <div class="flap-pos">
+        <div class="fp-name">−4°</div>
+        <div class="fp-use">Przelot między<br>kominami</div>
+      </div>
+      <div class="flap-pos">
+        <div class="fp-name">−7°</div>
+        <div class="fp-use">Lot szybki /<br>wysoka prędkość</div>
+      </div>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Zastosowanie</th>
+          <th>Klapy</th>
+          <th>Prędkość km/h</th>
+          <th>mph</th>
+          <th>węzły</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Podejście i lądowanie</td>
+          <td class="num">L</td>
+          <td class="num">80–110</td>
+          <td class="num">50–68</td>
+          <td class="num">43–59</td>
+        </tr>
+        <tr>
+          <td>Krążenie termiczne</td>
+          <td class="num">+8°</td>
+          <td class="num">80–100</td>
+          <td class="num">50–62</td>
+          <td class="num">43–54</td>
+        </tr>
+        <tr>
+          <td>Najlepsza doskonałość</td>
+          <td class="num">0°</td>
+          <td class="num">90–140</td>
+          <td class="num">56–87</td>
+          <td class="num">49–76</td>
+        </tr>
+        <tr>
+          <td>Przelot między kominami</td>
+          <td class="num">−4°</td>
+          <td class="num">120–160</td>
+          <td class="num">75–99</td>
+          <td class="num">65–86</td>
+        </tr>
+        <tr>
+          <td>Lot szybki</td>
+          <td class="num">−7°</td>
+          <td class="num">150–220</td>
+          <td class="num">93–137</td>
+          <td class="num">81–119</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ── 7. PRZECIĄGNIĘCIE ── -->
+  <section id="przeciagniecie">
+    <div class="section-header">
+      <div class="section-number">07</div>
+      <h2>Charakterystyka przeciągnięcia</h2>
+    </div>
+
+    <h3>Przeciągnięcie w locie prostym</h3>
+    <p>W zależności od obciążenia skrzydła i pozycji klap, ostrzeżenie o przeciągnięciu pojawia się przy prędkości <strong>65–85 km/h</strong> (35–46 kn) w postaci lekkiego drżenia statecznika poziomego oraz „luźnych" lotek.</p>
+    <p>Łagodne dalsze ściąganie drążka powoduje przeciągnięcie szybowca. Gwałtowne ściągnięcie lub turbulencja mogą spowodować opuszczenie nosa lub przechył na skrzydło (zależnie od pozycji powierzchni sterowych). Prędkość po przeciągnięciu narasta bardzo szybko.</p>
+
+    <h3>Przeciągnięcie w kręgu</h3>
+    <p>Ściąganie drążka w kręgu wymaga narastającej kompensacji przeciwlotką i sterem kierunku (przeciw obrotowi). W pełnym przeciągnięciu szybowiec opuszcza nos w stronę dolnego skrzydła. Wyprowadzenie: odpuść drążek do przodu — lot ustabilizowany przywracany jest za pomocą przeciwsteru i przeciwlotki.</p>
+
+    <h3>Zachowanie przy dużych prędkościach</h3>
+    <p>Pomijając wysokie siły na drążku, sterowanie przy dużych prędkościach jest łatwe. Należy unikać gwałtownych ruchów sterami. Przy locie w turbulentnym powietrzu na dużej prędkości — upewnij się, że pasy bezpieczeństwa są mocno zapięte i trzymaj drążek pewnie.</p>
+
+    <div class="alert alert-danger">
+      <div class="alert-icon">!</div>
+      <div>Przy locie z nachyleniem toru 45° prędkość wskazana osiąga V<sub>NE</sub> = 220 km/h — klapy muszą być na +8°, a hamulce aerodynamiczne wypuszczone!</div>
+    </div>
+  </section>
+
+  <!-- ── 8. SYTUACJE AWARYJNE ── -->
+  <section id="sytuacje">
+    <div class="section-header">
+      <div class="section-number">08</div>
+      <h2>Sytuacje awaryjne</h2>
+    </div>
+
+    <h3>Korkociąg — wyprowadzenie metodą standardową</h3>
+    <p>Szybowiec można utrzymać w konfiguracji przeciągnięcia z pełnym ściągnięciem drążka i niezbędną korekcją steru kierunku. Wychylenie pełnego steru kierunku przy przeciągnięciu wprowadza szybowiec w korkociąg. Utrata wysokości: <strong>80–100 m na pełny obrót</strong>.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div>Wychyl ster kierunku w stronę przeciwną do obrotu korkociągu (przeciwster).</div>
+      </div>
+      <div class="step">
+        <div>Pauza — odczekaj chwilę.</div>
+      </div>
+      <div class="step">
+        <div>Łagodnie oddaj drążek do przodu aż obrót ustanie i szybowiec wyjdzie z przeciągnięcia.</div>
+      </div>
+      <div class="step">
+        <div>Ustaw ster kierunku w pozycji neutralnej i pozwól szybowcowi wyjść z nurkowania. Uważaj — prędkość narasta bardzo szybko!</div>
+      </div>
+    </div>
+
+    <div class="alert alert-danger">
+      <div class="alert-icon">!</div>
+      <div>Po zainicjowaniu wyprowadzenia szybowiec szybko przyspiesza — bądź ostrożny, aby łagodnie wyjść z nurkowania bez przekroczenia V<sub>NE</sub>.</div>
+    </div>
+
+    <h3>Lot w deszczu / oblodzenie</h3>
+    <p>Lot w deszczu lub z oblodzonymi skrzydłami powoduje znaczną utratę osiągów. Prędkość minimalna może wzrosnąć o ok. <strong>15 km/h</strong>. Zachowaj ostrożność przy lądowaniu! Prędkość podejścia: <strong>100–110 km/h</strong> (54–59 kn).</p>
+
+    <h3>Awaryjne opuszczenie kokpitu</h3>
+    <p>Przestronne i dobrze wyprofilowane kokpity gwarantują szybkie i bezpieczne opuszczenie szybowca w sytuacji awaryjnej.</p>
+    <p><strong>Procedura zrzutu osłony:</strong></p>
+    <div class="steps">
+      <div class="step">
+        <div>Pociągnij do tyłu czerwone kuliste pokrętło po <strong>lewej stronie</strong> ramy osłony.</div>
+      </div>
+      <div class="step">
+        <div>Pociągnij do tyłu czerwone kuliste pokrętło po <strong>prawej stronie</strong> kokpitu (zrzut).</div>
+      </div>
+      <div class="step">
+        <div>Zepchnij osłonę od siebie. Rama osłony na kadłubie jest wykonana z mocnego włókna szklanego bez ostrych krawędzi — służy jako oparcie przy wyskoku.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 9. AKROBACJA ── -->
+  <section id="akrobacja">
+    <div class="section-header">
+      <div class="section-number">09</div>
+      <h2>Akrobacja (ograniczona)</h2>
+    </div>
+
+    <div class="alert alert-warning">
+      <div class="alert-icon">!</div>
+      <div>Akrobacja dozwolona jest <strong>wyłącznie bez balastu wodnego</strong>. Dopuszczone manewry: pętla wewnętrzna, zakręty przeciągnięciowe, korkociągi, leniwe ósemki.</div>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Manewr</th>
+          <th>Klapy</th>
+          <th>Prędkość wejścia</th>
+          <th>Prędkość wyjścia</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Pętla wewnętrzna</td>
+          <td class="num">−7°</td>
+          <td class="num">180 (200*) km/h</td>
+          <td class="num">160 (175) km/h</td>
+        </tr>
+        <tr>
+          <td>Zakręty przeciągnięciowe</td>
+          <td class="num">−7°</td>
+          <td class="num">180 (200*) km/h</td>
+          <td class="num">~140 km/h</td>
+        </tr>
+        <tr>
+          <td>Korkociąg</td>
+          <td class="num">+8°</td>
+          <td class="num">Ostre przeciąg.</td>
+          <td class="num">140–160 km/h</td>
+        </tr>
+        <tr>
+          <td>Leniwa ósemka</td>
+          <td class="num">−7°</td>
+          <td class="num">180–200 km/h</td>
+          <td class="num">160–180 km/h</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.85rem; color:var(--slate-500);">* W nawiasach wartości dla wyższego obciążenia skrzydła (lot dwumiejscowy). Korkociąg możliwy wyłącznie przy tylnym położeniu C.G.</p>
+  </section>
+
+  <!-- ── 10. LOT W CHMURACH ── -->
+  <section id="chmury">
+    <div class="section-header">
+      <div class="section-number">10</div>
+      <h2>Lot w chmurach</h2>
+    </div>
+
+    <p>Szybowiec posiada dostateczną wytrzymałość i stateczność do lotu w chmurach. Należy jednak przestrzegać następujących zasad:</p>
+
+    <div class="card">
+      <p><strong>a)</strong> Bezwzględnie unikaj skrajnych prędkości. Zasadą jest wypuszczanie hamulców aerodynamicznych już przy prędkości ok. 150 km/h (81 kn).</p>
+      <p><strong>b)</strong> Lot w chmurach dozwolony jest wyłącznie po zainstalowaniu wymaganych przyrządów:</p>
+      <p style="padding-left:1.5rem;">1. Prędkościomierz &nbsp; 2. Wysokościomierz &nbsp; 3. Zakrętomierz &nbsp; 4. Wariometr &nbsp; 5. Kompas magnetyczny</p>
+      <p>Zalecane dodatkowo: sztuczny horyzont, zegar, akcelerometr, radio.</p>
+      <p><strong>c)</strong> Przestrzegaj obowiązujących przepisów dotyczących lotu w chmurach.</p>
+    </div>
+  </section>
+
+  <!-- ── 11. POZYCJA C.G. ── -->
+  <section id="cg">
+    <div class="section-header">
+      <div class="section-number">11</div>
+      <h2>Pozycja środka ciężkości (C.G.)</h2>
+    </div>
+
+    <h3>Zakres C.G. w locie</h3>
+    <div class="card">
+      <p><strong>Datum (odniesienie):</strong> krawędź natarcia skrzydła przy żebrze nasadowym.</p>
+      <p><strong>Wypoziomowanie:</strong> nachylenie górnej tylnej powierzchni kadłuba 100 do 4,5 — ogon w dół.</p>
+      <p><strong>Max. przedni C.G.:</strong> 70 mm (2,75 cala) za datum.</p>
+      <p><strong>Max. tylny C.G.:</strong> 300 mm (11,81 cala) za datum.</p>
+    </div>
+
+    <div class="alert alert-danger">
+      <div class="alert-icon">!</div>
+      <div>Nie wolno przekroczyć maksymalnego tylnego położenia C.G.! Grozi to utratą stateczności podłużnej. Jeżeli obciążenie fotela przedniego (pilot + spadochron) jest zbyt niskie, należy to skompensować balastem trymującym — patrz plan załadunku.</div>
+    </div>
+
+    <h3>Obciążenie foteli</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Parametr</th>
+          <th>kg</th>
+          <th>lb</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Max. obciążenie fotela przedniego (pilot + spadochron)</td>
+          <td class="num">110</td>
+          <td class="num">243</td>
+        </tr>
+        <tr>
+          <td>Max. obciążenie fotela tylnego</td>
+          <td class="num">110</td>
+          <td class="num">243</td>
+        </tr>
+        <tr>
+          <td>Min. obciążenie fotela przedniego</td>
+          <td class="num">70</td>
+          <td class="num">154</td>
+        </tr>
+        <tr>
+          <td>Min. obciążenie fotela tylnego</td>
+          <td colspan="2" style="text-align:center;">bez ograniczeń</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Jeżeli obciążenie fotela przedniego jest mniejsze niż 70 kg, należy je uzupełnić płytami balastowymi montowanymi na uchwycie przy kole przednim. Producent dostarcza trzy ołowiane płyty (po ok. 3,65 kg każda). Liczba wymaganych płyt zależy od wielkości redukcji obciążenia: 5 kg → 1 płyta, 10 kg → 2 płyty, 15 kg → 3 płyty.</p>
+
+    <h3>Pozycja pilotów</h3>
+    <p><strong>Fotel przedni:</strong> 1300 mm (51,18 cala) przed datum.<br>
+    <strong>Fotel tylny:</strong> 190 mm (7,48 cala) przed datum.</p>
+
+    <h3>Przedział bagażowy</h3>
+    <p>Na półce montażowej zainstalowanej nad kołem głównym można zamocować sprzęt o masie max. <strong>25 kg</strong>. Komora bagażowa za dźwigarami służy do przechowywania butli tlenowych, termosów z wariometrem, lekkiego bagażu itp. Max. ładunek ruchomy: 5 kg. Ramię momentu bagażu: 1100 mm za datum.</p>
+  </section>
+
+  <!-- ── 12. WAŻENIE I WYWAŻENIE ── -->
+  <section id="wazenie">
+    <div class="section-header">
+      <div class="section-number">12</div>
+      <h2>Ważenie i wyważenie</h2>
+    </div>
+
+    <p>Szybowiec musi być ważony co najmniej raz na 4 lata, a także po naprawach konstrukcyjnych, po dodaniu wyposażenia lub po nowym lakierowaniu.</p>
+
+    <div class="card">
+      <p><strong>Datum:</strong> krawędź natarcia skrzydła przy żebrze nasadowym.</p>
+      <p><strong>Odległość koła głównego od datum:</strong> a = 164 mm (6,45 cala)</p>
+      <p><strong>Odległość płozy ogonowej od datum:</strong> b = 5290 mm (208,27 cala)</p>
+      <p><strong>Odległość kółka ogonowego od datum:</strong> b = 5252 mm (206,77 cala)</p>
+      <p><strong>Wzór na położenie C.G.:</strong> x = (W₂ × b / W) + a</p>
+      <p>Gdzie: W₁ = masa na kole głównym, W₂ = masa na płozie/kółku ogonowym, W = W₁ + W₂</p>
+    </div>
+  </section>
+
+  <!-- ── 13. USTAWIENIE SKRZYDŁA I USTERZENIA ── -->
+  <section id="ustawienia">
+    <div class="section-header">
+      <div class="section-number">13</div>
+      <h2>Ustawienie skrzydła i usterzenia</h2>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Parametr</th>
+          <th>Wartość</th>
+          <th>Odniesienie</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Kąt zabudowy skrzydła</td>
+          <td class="num">2,6°</td>
+          <td>Oś podłużna kadłuba (tylna)</td>
+        </tr>
+        <tr>
+          <td>Kąt zabudowy usterzenia</td>
+          <td class="num">0°</td>
+          <td>Oś podłużna kadłuba (tylna)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Ograniczniki wychyleń sterów</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Powierzchnia</th>
+          <th>Typ ogranicznika</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Ster kierunku</td><td>Regulowane ograniczniki na tylnej ramie kadłuba + stałe ograniczniki przy dolnym zawiasie</td></tr>
+        <tr><td>Ster wysokości</td><td>Regulowane ograniczniki na drążkach i ich grodzicach (śruby nastawne)</td></tr>
+        <tr><td>Lotki</td><td>Regulowane ograniczniki na drążkach, stałe ograniczniki w skrzydle</td></tr>
+        <tr><td>Klapy skrzydłowe</td><td>Urządzenie blokujące w kokpicie</td></tr>
+        <tr><td>Hamulce aero.</td><td>Stałe ograniczniki na uchwytach w kokpicie i na ramie stalowej kadłuba</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ── 14. WYMIARY ── -->
+  <section id="wymiary">
+    <div class="section-header">
+      <div class="section-number">14</div>
+      <h2>Wymiary i wychylenia sterów</h2>
+    </div>
+
+    <p>Dane z rysunku trzy-rzutowego (str. 21 oryginału):</p>
+
+    <div class="card-grid">
+      <div class="stat-card">
+        <div class="stat-value">18.20 <span class="stat-unit">m</span></div>
+        <div class="stat-label">Rozpiętość skrzydeł (59,7 ft)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">8.62 <span class="stat-unit">m</span></div>
+        <div class="stat-label">Długość kadłuba (28,3 ft)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">2.50 <span class="stat-unit">m</span></div>
+        <div class="stat-label">Wysokość (8,2 ft)</div>
+      </div>
+    </div>
+
+    <h3>Wychylenia powierzchni sterowych</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Powierzchnia</th>
+          <th>Do góry</th>
+          <th>W dół</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Lotki</td>
+          <td class="num">80 +10/−0 mm (3,15 +0,4 cala)</td>
+          <td class="num">40 +5/−7 mm (1,57 +0,2 cala)</td>
+        </tr>
+        <tr>
+          <td>Klapy skrzydłowe</td>
+          <td class="num">24 ±3 mm (0,94 ±0,12 cala)</td>
+          <td class="num">62 ±7 mm (2,44 ±0,3 cala)</td>
+        </tr>
+        <tr>
+          <td>Ster wysokości</td>
+          <td colspan="2" class="num">55 ±6 mm (2,16 ±0,24 cala) — w górę i w dół</td>
+        </tr>
+        <tr>
+          <td>Ster kierunku</td>
+          <td colspan="2" class="num">255 ±20 mm (10 ±0,8 cala) — w lewo i w prawo</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ── 15. CHECKLISTA ── -->
+  <section id="checklista">
+    <div class="section-header">
+      <div class="section-number">15</div>
+      <h2>Checklista</h2>
+    </div>
+
+    <h3>A) Po montażu</h3>
+    <div class="card">
+      <ul class="checklist">
+        <li>Czy uchwyt sworznia głównego jest zabezpieczony zawleczką cowlingu?</li>
+        <li>Czy popychacze lotek, klap i hamulców są prawidłowo połączone kulkowymi złączami sprężynowymi i sprawdzone?</li>
+        <li>Czy połączenia skrzydło–kadłub i otwór na rygiel usterzenia poziomego są uszczelnione?</li>
+        <li>Czy mechanizm wyzwalacza holowniczego działa prawidłowo?</li>
+        <li>Czy hamulec koła działa prawidłowo?</li>
+        <li>Czy sprawdzono ciśnienie w oponach? Koło główne: 2,75 bar (39 psi), kółko przednie: 1,5 bar (21 psi), kółko ogonowe: 2,5 bar (36 psi).</li>
+        <li>Czy usterzenie poziome jest pewnie zamocowane?</li>
+      </ul>
+    </div>
+
+    <h3>B) Przed startem</h3>
+    <div class="card">
+      <ul class="checklist">
+        <li>Czy powierzchnie sterowe poruszają się swobodnie, do pełnych wychyleń, we właściwym kierunku?</li>
+        <li>Czy hamulce aerodynamiczne działają prawidłowo? Czy po sprawdzeniu są zablokowane?</li>
+        <li>Czy uchwyt spadochronu hamującego jest zaryglowany w tylnym położeniu?</li>
+        <li>Czy klapy są w prawidłowej pozycji startowej?</li>
+        <li>Czy osłona jest zamknięta i zaryglowana? Czerwone pokrętła po obu stronach muszą być w pozycji przedniej.</li>
+        <li>Czy spadochron pilota jest prawidłowo zapięty?</li>
+        <li>Czy pasy bezpieczeństwa są założone i zaciągnięte?</li>
+        <li>Czy wysokościomierz jest ustawiony na odpowiednią wysokość lub QNH/QFE?</li>
+        <li>Czy częstotliwość radiowa jest ustawiona na lotnisko / kontrolę lotów?</li>
+      </ul>
+    </div>
+
+    <h3>C) Po starcie</h3>
+    <div class="card">
+      <ul class="checklist">
+        <li>Sprawdź trymer.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ── 16. WYPOSAŻENIE MINIMALNE ── -->
+  <section id="wyposazenie">
+    <div class="section-header">
+      <div class="section-number">16</div>
+      <h2>Wyposażenie minimalne</h2>
+    </div>
+
+    <div class="card">
+      <h4>a) Przyrządy i wyposażenie obowiązkowe</h4>
+      <p>Prędkościomierz 250 km/h (160 mph / 140 kn), wysokościomierz, czteropunktowe pasy bezpieczeństwa, poduszka lub spadochron ratunkowy.</p>
+
+      <h4>b) Dokumenty obowiązkowe</h4>
+      <p>Podręcznik Lotu i Obsługi, tabliczki z ograniczeniami eksploatacyjnymi.</p>
+    </div>
+  </section>
+
+  <!-- ── 17. KALIBRACJA ASI ── -->
+  <section id="kalibracja">
+    <div class="section-header">
+      <div class="section-number">17</div>
+      <h2>Kalibracja prędkościomierza</h2>
+    </div>
+
+    <p><strong>Wlot ciśnienia dynamicznego:</strong> nos kadłuba, górna krawędź otworu wlotowego.</p>
+    <p><strong>Wlot ciśnienia statycznego:</strong> rama kokpitu, ok. 6 cm (2 3/8 cala) przed panelem przyrządów (fotel przedni). Wysokościomierz: tył kadłuba, ok. 1,2 m (47 cali) przed płaszczyzną usterzenia pionowego.</p>
+
+    <h3>Tablica korekty (EAS → IAS)</h3>
+    <p>Przy gęstości powietrza ρ₀ = 0,125 kgs²/m⁴:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>V(EAS) km/h</th>
+          <th>V'(IAS) km/h</th>
+          <th>V(EAS) mph</th>
+          <th>V'(IAS) mph</th>
+          <th>V(EAS) kn</th>
+          <th>V'(IAS) kn</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="num">70</td><td class="num">69</td><td class="num">45</td><td class="num">44.7</td><td class="num">38</td><td class="num">37.8</td></tr>
+        <tr><td class="num">80</td><td class="num">80</td><td class="num">50</td><td class="num">50</td><td class="num">40</td><td class="num">40</td></tr>
+        <tr><td class="num">100</td><td class="num">100</td><td class="num">60</td><td class="num">60</td><td class="num">50</td><td class="num">50</td></tr>
+        <tr><td class="num">120</td><td class="num">117</td><td class="num">80</td><td class="num">78.3</td><td class="num">70</td><td class="num">68.6</td></tr>
+        <tr><td class="num">140</td><td class="num">138</td><td class="num">90</td><td class="num">88.8</td><td class="num">80</td><td class="num">78.8</td></tr>
+        <tr><td class="num">160</td><td class="num">158</td><td class="num">100</td><td class="num">98.8</td><td class="num">90</td><td class="num">88.7</td></tr>
+        <tr><td class="num">180</td><td class="num">177</td><td class="num">110</td><td class="num">108.1</td><td class="num">100</td><td class="num">98.4</td></tr>
+        <tr><td class="num">200</td><td class="num">198</td><td class="num">120</td><td class="num">118.3</td><td class="num">110</td><td class="num">108.8</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ── 18. CIŚNIENIE W OPONACH ── -->
+  <section id="cisnienia">
+    <div class="section-header">
+      <div class="section-number">18</div>
+      <h2>Dane dodatkowe</h2>
+    </div>
+
+    <div class="card-grid">
+      <div class="stat-card">
+        <div class="stat-value">3.5 <span class="stat-unit">bar</span></div>
+        <div class="stat-label">Ciśnienie opony koła głównego (50 psi) — wg tabliczki</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">2.75 <span class="stat-unit">bar</span></div>
+        <div class="stat-label">Ciśnienie opony koła głównego (39 psi) — wg checklisty</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">1.5 <span class="stat-unit">bar</span></div>
+        <div class="stat-label">Ciśnienie kółka przedniego (21 psi)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">2.5 <span class="stat-unit">bar</span></div>
+        <div class="stat-label">Ciśnienie kółka ogonowego (36 psi)</div>
+      </div>
+    </div>
+
+    <div class="alert alert-warning">
+      <div class="alert-icon">!</div>
+      <div><strong>Uwaga — rozbieżność w dokumencie:</strong> Tabliczka na str. 5 podaje ciśnienie koła głównego jako 3,5 bar (50 psi), natomiast checklista na str. 23 podaje 2,75 bar (39 psi). Należy zweryfikować prawidłową wartość z aktualną dokumentacją techniczną szybowca lub z producentem. Wartość 3,5 bar pochodzi z tabliczki referencyjnej; wartość 2,75 bar z checklisty przeglądowej.</div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+<footer class="manual-footer">
+  <p><strong>JANUS B — Podręcznik Lotu i Obsługi</strong></p>
+  <p>Tłumaczenie na język polski na podstawie Flight and Service Manual, Schempp-Hirth Flugzeugbau GmbH</p>
+  <p>Wydanie oryginalne: marzec 1978 &bull; Rejestracja: G-DDTC &bull; Nr seryjny: 63</p>
+  <p style="margin-top:1rem; font-size:0.78rem; opacity:0.6;">Niniejsze tłumaczenie ma charakter informacyjny. W przypadku wątpliwości wiążący jest tekst oryginalny w języku angielskim/niemieckim.<br>Dokument wygenerowany na potrzeby pilota — marzec 2026.</p>
+</footer>
+
+</body>
+</html>
