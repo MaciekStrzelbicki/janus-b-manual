@@ -42,7 +42,7 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; font-size: 17px; overflow-x: hidden; }
+html { scroll-behavior: smooth; font-size: 17px; overflow-x: clip; }
 
 body {
   font-family: var(--font-body);
@@ -50,7 +50,7 @@ body {
   background: var(--slate-50);
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* ─── HERO ─── */
