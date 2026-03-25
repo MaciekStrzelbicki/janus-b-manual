@@ -598,16 +598,106 @@ p {
 }
 
 /* ─── FOOTER ─── */
-.manual-footer {
+.manual-footer,
+.manual-footer p,
+.manual-footer strong {
   text-align: center;
+  color: #fff;
+}
+.manual-footer {
   padding: 3rem 1rem;
   background: var(--sky-900);
-  color: rgba(255,255,255,0.6);
   font-size: 0.85rem;
 }
 
-.manual-footer strong {
-  color: rgba(255,255,255,0.9);
+/* ─── POLAR CHART ─── */
+.polar-chart-container {
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  overflow-x: auto;
+}
+.polar-chart-container canvas {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  cursor: crosshair;
+}
+.polar-legend-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.4rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+  font-size: 0.82rem;
+  color: var(--slate-600);
+}
+.polar-legend-bar .leg-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.polar-legend-bar .leg-swatch {
+  width: 22px;
+  height: 3px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.polar-legend-bar .leg-swatch.dashed {
+  background: repeating-linear-gradient(90deg, currentColor 0 5px, transparent 5px 9px);
+  height: 2px;
+}
+.polar-tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: rgba(15,23,42,0.92);
+  color: #fff;
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 10;
+}
+
+/* ─── MANUAL FIGURES ─── */
+.manual-figure {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+.manual-figure img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  background: #fff;
+}
+.manual-figure.fig-narrow img {
+  max-width: 480px;
+}
+.manual-figure.fig-wide img {
+  max-width: 100%;
+}
+.manual-figure figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--slate-500);
+  font-style: italic;
+}
+.fig-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+@media (max-width: 640px) {
+  .fig-row { grid-template-columns: 1fr; }
 }
 
 /* ─── PRINT ─── */
@@ -687,6 +777,7 @@ p {
   <a href="#chmury">Lot w chmurach</a>
   <a href="#cg">C.G.</a>
   <a href="#checklista">Checklista</a>
+  <a href="#polara">Polara</a>
 </nav>
 
 <!-- ═══════════════════════ MAIN ═══════════════════════ -->
@@ -871,6 +962,11 @@ p {
       <div class="alert-icon">!</div>
       <div><strong>Uwaga:</strong> Osłona otwiera się na zawiasach po prawej stronie. Otwieranie — pokrętło czerwone po lewej. Zrzut awaryjny — najpierw otwórz osłonę, potem pociągnij czerwone pokrętło po prawej i zepchnij osłonę.</div>
     </div>
+
+    <figure class="manual-figure fig-narrow">
+      <img src="img/page-08.png" alt="Operating handles and knobs — dźwignie i gałki sterowania w kokpicie Janus B" loading="lazy">
+      <figcaption>Str. 5b oryginału — dźwignie i gałki sterowania</figcaption>
+    </figure>
   </section>
 
   <!-- ── 4. INSTRUKCJE OPERACYJNE ── -->
@@ -1248,6 +1344,18 @@ p {
 
     <p>Jeżeli obciążenie fotela przedniego jest mniejsze niż 70 kg, należy je uzupełnić płytami balastowymi montowanymi na uchwycie przy kole przednim. Producent dostarcza trzy ołowiane płyty (po ok. 3,65 kg każda). Liczba wymaganych płyt zależy od wielkości redukcji obciążenia: 5 kg → 1 płyta, 10 kg → 2 płyty, 15 kg → 3 płyty.</p>
 
+    <h3>Wykresy zakresu C.G. masy pustej</h3>
+    <div class="fig-row">
+      <figure class="manual-figure">
+        <img src="img/page-24.png" alt="Zakres C.G. masy pustej — dopuszczalna pozycja przednia" loading="lazy">
+        <figcaption>Str. 19A — pozycja przednia C.G. (max. obciążenie foteli 2 × 110 kg)</figcaption>
+      </figure>
+      <figure class="manual-figure">
+        <img src="img/page-25.png" alt="Zakres C.G. masy pustej — dopuszczalna pozycja tylna" loading="lazy">
+        <figcaption>Str. 19B — pozycja tylna C.G. (różne min. obciążenia fotela przedniego)</figcaption>
+      </figure>
+    </div>
+
     <h3>Pozycja pilotów</h3>
     <p><strong>Fotel przedni:</strong> 1300 mm (51,18 cala) przed datum.<br>
     <strong>Fotel tylny:</strong> 190 mm (7,48 cala) przed datum.</p>
@@ -1273,6 +1381,11 @@ p {
       <p><strong>Wzór na położenie C.G.:</strong> x = (W₂ × b / W) + a</p>
       <p>Gdzie: W₁ = masa na kole głównym, W₂ = masa na płozie/kółku ogonowym, W = W₁ + W₂</p>
     </div>
+
+    <figure class="manual-figure fig-narrow">
+      <img src="img/page-29.png" alt="Weight and Balance — schemat ważenia szybowca Janus B" loading="lazy">
+      <figcaption>Str. 22 oryginału — schemat ważenia i wyważenia</figcaption>
+    </figure>
   </section>
 
   <!-- ── 13. USTAWIENIE SKRZYDŁA I USTERZENIA ── -->
@@ -1328,6 +1441,11 @@ p {
       <div class="section-number">14</div>
       <h2>Wymiary i wychylenia sterów</h2>
     </div>
+
+    <figure class="manual-figure fig-wide">
+      <img src="img/page-28.png" alt="Three-sides view — rysunek trzy-rzutowy Janus B z wymiarami i wychyleniami sterów" loading="lazy">
+      <figcaption>Str. 21 oryginału — rysunek trzy-rzutowy z wymiarami i wychyleniami powierzchni sterowych</figcaption>
+    </figure>
 
     <p>Dane z rysunku trzy-rzutowego (str. 21 oryginału):</p>
 
@@ -1508,6 +1626,30 @@ p {
     </div>
   </section>
 
+  <!-- ── 19. POLARA ── -->
+  <section id="polara">
+    <div class="section-header">
+      <div class="section-number">19</div>
+      <h2>Krzywa biegunowa (polara prędkościowa)</h2>
+    </div>
+
+    <p>Zmierzona biegunowa prędkościowa szybowca Janus B. Obwiednia krzywych pokazuje optymalny dobór klap dla każdej prędkości. Najlepsza doskonałość <strong>39,5</strong> przy <strong>110 km/h</strong> (lot dwumiejscowy, W/S = 36,5 kp/m²). Krzywe przerywane &mdash; lot jednomiejscowy (W/S = 30,5 kp/m²).</p>
+
+    <div class="polar-chart-container">
+      <div class="polar-legend-bar">
+        <div class="leg-item"><span class="leg-swatch" style="background:#e74c3c"></span> +12°</div>
+        <div class="leg-item"><span class="leg-swatch" style="background:#e67e22"></span> +6°</div>
+        <div class="leg-item"><span class="leg-swatch" style="background:#27ae60"></span> 0°</div>
+        <div class="leg-item"><span class="leg-swatch" style="background:#2980b9"></span> −4°</div>
+        <div class="leg-item"><span class="leg-swatch" style="background:#8e44ad"></span> −7°</div>
+        <div class="leg-item" style="margin-left:0.8rem"><span class="leg-swatch" style="background:var(--slate-700)"></span> dwumiejscowy</div>
+        <div class="leg-item"><span class="leg-swatch dashed" style="color:var(--slate-400)"></span> jednomiejscowy</div>
+      </div>
+      <canvas id="polarCanvas" width="900" height="640"></canvas>
+      <div class="polar-tooltip" id="polarTooltip"></div>
+    </div>
+  </section>
+
 </main>
 
 <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
@@ -1531,6 +1673,298 @@ const observer = new IntersectionObserver(entries => {
   });
 }, { rootMargin: '-20% 0px -60% 0px' });
 sections.forEach(s => observer.observe(s));
+</script>
+
+<script>
+(function() {
+  const canvas = document.getElementById('polarCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const W = 900, H = 660;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+  ctx.scale(dpr, dpr);
+
+  // Chart area — X-axis (speed) on TOP
+  const pad = { top: 55, right: 40, bottom: 20, left: 70 };
+  const cw = W - pad.left - pad.right;
+  const ch = H - pad.top - pad.bottom;
+
+  // Axes: X = speed 60–210 km/h (top), Y = sink 0–3.5 m/s (down)
+  const xMin = 60, xMax = 210;
+  const yMin = 0, yMax = 3.5;
+
+  function xPx(v) { return pad.left + (v - xMin) / (xMax - xMin) * cw; }
+  function yPx(s) { return pad.top + s / yMax * ch; }
+  function xVal(px) { return xMin + (px - pad.left) / cw * (xMax - xMin); }
+  function yVal(py) { return (py - pad.top) / ch * yMax; }
+
+  // ── Polar data: dual-seat calibrated to manual specs & XCSoar ──
+  // Manual: min sink 0.70 m/s @ 90 km/h, best L/D 39.5 @ 110 km/h
+  // XCSoar envelope: 100→0.71, 120→0.92, 150→1.46
+  const flaps = [
+    { name: '+12°', color: '#e74c3c', dual: [
+      [70,0.85],[75,0.76],[80,0.72],[85,0.71],[90,0.74],[95,0.80],[100,0.90]
+    ]},
+    { name: '+6°', color: '#e67e22', dual: [
+      [80,0.80],[85,0.74],[90,0.71],[95,0.70],[100,0.72],[105,0.76],[110,0.83],[115,0.93],[120,1.06]
+    ]},
+    { name: '0°', color: '#27ae60', dual: [
+      [90,0.85],[95,0.82],[100,0.79],[105,0.77],[110,0.78],[115,0.83],[120,0.92],[130,1.15],[140,1.45],[150,1.82]
+    ]},
+    { name: '−4°', color: '#2980b9', dual: [
+      [105,0.95],[110,0.90],[115,0.88],[120,0.92],[130,1.02],[140,1.22],[150,1.52],[160,1.92],[170,2.42]
+    ]},
+    { name: '−7°', color: '#8e44ad', dual: [
+      [120,1.02],[130,1.05],[140,1.18],[150,1.42],[160,1.76],[170,2.20],[180,2.74],[190,3.38],[200,4.10]
+    ]}
+  ];
+  // Single-seat: scale by sqrt(30.5/36.5) ≈ 0.914
+  const r = Math.sqrt(30.5 / 36.5);
+  flaps.forEach(f => { f.single = f.dual.map(([v,s]) => [+(v*r).toFixed(0), +(s*r).toFixed(3)]); });
+
+  // Build envelope (best sink at each speed)
+  function envelope(key) {
+    const map = {};
+    flaps.forEach(f => {
+      f[key].forEach(([v, s]) => {
+        const vr = Math.round(v);
+        if (!map[vr] || s < map[vr]) map[vr] = s;
+      });
+    });
+    return Object.entries(map).map(([v, s]) => [+v, s]).sort((a, b) => a[0] - b[0]);
+  }
+
+  // Monotone cubic spline drawing
+  function drawCurve(pts, dash) {
+    if (pts.length < 2) return;
+    ctx.setLineDash(dash || []);
+    ctx.beginPath();
+    const n = pts.length;
+    ctx.moveTo(xPx(pts[0][0]), yPx(pts[0][1]));
+    for (let i = 0; i < n - 1; i++) {
+      const x0 = xPx(pts[i][0]), y0 = yPx(pts[i][1]);
+      const x1 = xPx(pts[i+1][0]), y1 = yPx(pts[i+1][1]);
+      const t = (x1 - x0) / 3;
+      let dy0, dy1;
+      if (i > 0) dy0 = (yPx(pts[i+1][1]) - yPx(pts[i-1][1])) / (xPx(pts[i+1][0]) - xPx(pts[i-1][0]));
+      else dy0 = (y1 - y0) / (x1 - x0);
+      if (i < n - 2) dy1 = (yPx(pts[i+2][1]) - yPx(pts[i][1])) / (xPx(pts[i+2][0]) - xPx(pts[i][0]));
+      else dy1 = (y1 - y0) / (x1 - x0);
+      ctx.bezierCurveTo(x0 + t, y0 + dy0 * t, x1 - t, y1 - dy1 * t, x1, y1);
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Background
+    ctx.fillStyle = '#fafbfc';
+    ctx.fillRect(pad.left, pad.top, cw, ch);
+
+    // Minor grid
+    ctx.strokeStyle = '#e8ecf0';
+    ctx.lineWidth = 0.6;
+    for (let v = 60; v <= 210; v += 10) {
+      ctx.beginPath(); ctx.moveTo(xPx(v), pad.top); ctx.lineTo(xPx(v), pad.top + ch); ctx.stroke();
+    }
+    for (let s = 0; s <= 3.5; s += 0.25) {
+      ctx.beginPath(); ctx.moveTo(pad.left, yPx(s)); ctx.lineTo(pad.left + cw, yPx(s)); ctx.stroke();
+    }
+
+    // Major grid
+    ctx.strokeStyle = '#cdd5de';
+    ctx.lineWidth = 1;
+    for (let v = 60; v <= 210; v += 20) {
+      ctx.beginPath(); ctx.moveTo(xPx(v), pad.top); ctx.lineTo(xPx(v), pad.top + ch); ctx.stroke();
+    }
+    for (let s = 0; s <= 3.5; s += 0.5) {
+      ctx.beginPath(); ctx.moveTo(pad.left, yPx(s)); ctx.lineTo(pad.left + cw, yPx(s)); ctx.stroke();
+    }
+
+    // Envelope shading (dual)
+    const env = envelope('dual');
+    if (env.length > 2) {
+      ctx.fillStyle = 'rgba(39,174,96,0.06)';
+      ctx.beginPath();
+      ctx.moveTo(xPx(env[0][0]), yPx(0));
+      env.forEach(([v, s]) => ctx.lineTo(xPx(v), yPx(s)));
+      ctx.lineTo(xPx(env[env.length-1][0]), yPx(0));
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    // Single seat curves (dashed, lighter)
+    flaps.forEach(f => {
+      ctx.strokeStyle = f.color;
+      ctx.globalAlpha = 0.40;
+      ctx.lineWidth = 1.5;
+      drawCurve(f.single, [6, 4]);
+      ctx.globalAlpha = 1;
+    });
+
+    // Dual seat curves (solid)
+    flaps.forEach(f => {
+      ctx.strokeStyle = f.color;
+      ctx.lineWidth = 2.5;
+      drawCurve(f.dual, []);
+    });
+
+    // Flap labels at end of each dual curve
+    ctx.font = '600 11px "Source Sans 3", sans-serif';
+    flaps.forEach(f => {
+      const last = f.dual[f.dual.length - 1];
+      const lx = xPx(last[0]), ly = yPx(last[1]);
+      ctx.fillStyle = f.color;
+      ctx.textAlign = 'left';
+      ctx.fillText(f.name, lx + 5, ly + 4);
+    });
+
+    // Best L/D tangent line from origin (V=0, Ws=0)
+    // L/D = V/(Ws×3.6) = 39.5 → slope Ws/V = 1/(3.6×39.5) = 0.00703
+    const bestLd = 39.5;
+    ctx.strokeStyle = 'rgba(15,23,42,0.30)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    const tV1 = 60, tV2 = 200;
+    ctx.moveTo(xPx(tV1), yPx(tV1 / 3.6 / bestLd));
+    ctx.lineTo(xPx(tV2), yPx(tV2 / 3.6 / bestLd));
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Best L/D point (dual, flap 0°, ~110 km/h)
+    const bestV = 110, bestS = 110 / 3.6 / bestLd; // 0.773 m/s
+    ctx.fillStyle = '#1a5f9e';
+    ctx.beginPath(); ctx.arc(xPx(bestV), yPx(bestS), 5, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.beginPath(); ctx.arc(xPx(bestV), yPx(bestS), 2, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#1a5f9e';
+    ctx.font = '600 12px "Source Sans 3", sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('Max L/D = 39,5', xPx(bestV) + 10, yPx(bestS) - 6);
+    ctx.font = '400 11px "Source Sans 3", sans-serif';
+    ctx.fillText(bestV + ' km/h  ·  ' + bestS.toFixed(2) + ' m/s', xPx(bestV) + 10, yPx(bestS) + 10);
+
+    // Min sink point (dual, flap +6°, ~95 km/h, 0.70 m/s)
+    const minSV = 95, minSS = 0.70;
+    ctx.fillStyle = '#e67e22';
+    ctx.beginPath(); ctx.arc(xPx(minSV), yPx(minSS), 4, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.beginPath(); ctx.arc(xPx(minSV), yPx(minSS), 1.5, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#c0392b';
+    ctx.font = '600 11px "Source Sans 3", sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('Min. opadanie', xPx(minSV) + 8, yPx(minSS) - 8);
+    ctx.font = '400 10px "Source Sans 3", sans-serif';
+    ctx.fillText(minSS.toFixed(2) + ' m/s @ ' + minSV + ' km/h', xPx(minSV) + 8, yPx(minSS) + 6);
+
+    // ── Axes ──
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1.5;
+    // Top + left borders
+    ctx.beginPath();
+    ctx.moveTo(pad.left, pad.top);
+    ctx.lineTo(pad.left + cw, pad.top);   // top edge (X-axis)
+    ctx.moveTo(pad.left, pad.top);
+    ctx.lineTo(pad.left, pad.top + ch);    // left edge (Y-axis)
+    ctx.stroke();
+
+    // X-axis labels at TOP
+    ctx.fillStyle = '#475569';
+    ctx.font = '500 12px "Source Sans 3", sans-serif';
+    ctx.textAlign = 'center';
+    for (let v = 60; v <= 210; v += 20) {
+      ctx.fillText(v, xPx(v), pad.top - 12);
+      // Tick marks
+      ctx.beginPath(); ctx.moveTo(xPx(v), pad.top); ctx.lineTo(xPx(v), pad.top + 6); ctx.strokeStyle = '#334155'; ctx.lineWidth = 1; ctx.stroke();
+    }
+    ctx.font = '600 13px "Source Sans 3", sans-serif';
+    ctx.fillText('V  [km/h]', pad.left + cw / 2, pad.top - 32);
+
+    // Y-axis labels (sink, increasing downward)
+    ctx.textAlign = 'right';
+    ctx.font = '500 12px "Source Sans 3", sans-serif';
+    for (let s = 0; s <= 3.5; s += 0.5) {
+      ctx.fillText(s.toFixed(1), pad.left - 10, yPx(s) + 4);
+      ctx.beginPath(); ctx.moveTo(pad.left, yPx(s)); ctx.lineTo(pad.left + 6, yPx(s)); ctx.strokeStyle = '#334155'; ctx.lineWidth = 1; ctx.stroke();
+    }
+    ctx.save();
+    ctx.translate(18, pad.top + ch / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.textAlign = 'center';
+    ctx.font = '600 13px "Source Sans 3", sans-serif';
+    ctx.fillStyle = '#475569';
+    ctx.fillText('Ws  [m/s]', 0, 0);
+    ctx.restore();
+
+    // Annotations
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '500 10px "Source Sans 3", sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText('gemessene Polare / MEASURED POLAR', pad.left + cw - 4, pad.top + ch - 8);
+
+    // Config labels — bottom-left area
+    ctx.font = '600 10.5px "Source Sans 3", sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#475569';
+    ctx.fillText('━━ dwumiejscowy W/S = 36,5 kp/m²', pad.left + 10, pad.top + ch - 28);
+    ctx.fillStyle = '#94a3b8';
+    ctx.fillText('╌╌  jednomiejscowy W/S = 30,5 kp/m²', pad.left + 10, pad.top + ch - 12);
+  }
+
+  draw();
+
+  // ── Interactive tooltip ──
+  const tooltip = document.getElementById('polarTooltip');
+  const container = canvas.parentElement;
+
+  canvas.addEventListener('mousemove', function(e) {
+    const rect = canvas.getBoundingClientRect();
+    const mx = (e.clientX - rect.left) * (W / rect.width);
+    const my = (e.clientY - rect.top) * (H / rect.height);
+
+    if (mx < pad.left || mx > pad.left + cw || my < pad.top || my > pad.top + ch) {
+      tooltip.style.opacity = '0'; return;
+    }
+
+    let best = null, bestDist = Infinity;
+    flaps.forEach(f => {
+      f.dual.forEach(([v, s]) => {
+        const d = Math.hypot(xPx(v) - mx, yPx(s) - my);
+        if (d < bestDist) { bestDist = d; best = { v, s, name: f.name, color: f.color }; }
+      });
+      f.single.forEach(([v, s]) => {
+        const d = Math.hypot(xPx(v) - mx, yPx(s) - my);
+        if (d < bestDist) { bestDist = d; best = { v, s, name: f.name + ' (1os.)', color: f.color }; }
+      });
+    });
+
+    if (bestDist < 30 && best) {
+      const ld = (best.v / 3.6 / best.s).toFixed(1);
+      tooltip.innerHTML = '<span style="color:' + best.color + '">' + best.name + '</span>  ' + best.v + ' km/h · ' + best.s.toFixed(2) + ' m/s · L/D ' + ld;
+      tooltip.style.left = (e.clientX - container.getBoundingClientRect().left + 14) + 'px';
+      tooltip.style.top = (e.clientY - container.getBoundingClientRect().top - 10) + 'px';
+      tooltip.style.opacity = '1';
+    } else {
+      tooltip.style.opacity = '0';
+    }
+  });
+
+  canvas.addEventListener('mouseleave', function() { tooltip.style.opacity = '0'; });
+
+  window.addEventListener('resize', function() {
+    const d = window.devicePixelRatio || 1;
+    canvas.width = W * d; canvas.height = H * d;
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.scale(d, d);
+    draw();
+  });
+})();
 </script>
 
 </body>
